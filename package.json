@@ -2,6 +2,7 @@
 	"name": "LDP.js",
 	"version": "0.0.1",
 	"description": "A Node.js reference app for LDP",
+	"license": "Apache-2.0",
 	"dependencies": {
 		"express": "4.14.0",
 		"n3": "0.2.7",
