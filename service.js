@@ -622,7 +622,7 @@ module.exports = function(app, db, env) {
 			}
 
 			// include containment?
-			var includeContainment;
+			var includeContainment = false;
 			if (hasPreferInclude(req, ldp.PreferContainment)) {
 				includeContainment = true;
 				preferenceApplied = true;
@@ -634,7 +634,7 @@ module.exports = function(app, db, env) {
 			}
 
 			// include membership?
-			var includeMembership;
+			var includeMembership = false;
 			if (document.interactionModel === ldp.DirectContainer && document.hasMemberRelation) {
 				if (hasPreferInclude(req, ldp.PreferMembership)) {
 					includeMembership = true;
