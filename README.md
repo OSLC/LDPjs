@@ -1,5 +1,8 @@
 # LDP.js
 
+[![Discourse status](https://img.shields.io/discourse/https/meta.discourse.org/status.svg)](https://forum.open-services.net/)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/OSLC/chat)
+
 A simple reference implementation for the [W3C Linked Data
 Platform](http://www.w3.org/2012/ldp), leveraging Node.js,
 MongoDB, and a few other js libraries.  Catch it running at
