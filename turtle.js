@@ -34,7 +34,7 @@ function normalize(urlStr) {
 
 exports.serialize = function(triples, callback) {
 	var writer = N3.Writer();
-	writer.addTriples(triples);
+	writer.addQuads(triples);
 	writer.end(function(err, content) {
 		callback(err, media.turtle, content);
 	});
