@@ -27,8 +27,8 @@ var rdf = require('./vocab/rdf.js');			// RDF vocabulary
 
 // normalize paths (remove '.' and '..')
 function normalize(urlStr) {
-	var urlObj = url.parse(urlStr);
-	urlObj.pathname = path.normalize(urlObj.pathname);
+	// var urlObj = url.parse(urlStr);
+	// urlObj.pathname = path.normalize(urlObj.pathname);
 	return urlObj.format();
 }
 
