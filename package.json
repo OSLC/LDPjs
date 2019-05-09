@@ -9,13 +9,8 @@
 		"jsonld": "1.0.2",
 		"mongodb": "3.1.0"
 	},
-	"engines": {
-		"node": "0.10.26"
-
-	},
-	"scripts": {  
-	   "start": "node app.js"
+	"scripts": {
+		"start": "node app.js"
 	},
 	"repository": {}
-
 }
