@@ -96,7 +96,10 @@ if (process.env.VCAP_SERVICES) {
 } else {
 	if (process.env.OPENSHIFT_MONGODB_DB_URL) {
 		exports.mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL;
-	} else {
+	} else if (process.env.MONGODB_URI) {
+		// Heroku
+		exports.mongoURL = process.env.MONGODB_URI;
+	}else {
 		exports.mongoURL = process.env.MONGO_URL || config.mongoURL;
 	}
 }
