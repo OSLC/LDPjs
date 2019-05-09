@@ -27,12 +27,12 @@ var rdf = require('./vocab/rdf.js');			// RDF vocabulary
 
 // normalize paths (remove '.' and '..')
 function normalize(urlStr) {
-	// var urlObj = url.parse(urlStr);
-	// urlObj.pathname = path.normalize(urlObj.pathname);
 	if(urlStr) {
+		var urlObj = url.parse(urlStr);
+		// urlObj.pathname = path.normalize(urlObj.pathname);
 		return urlObj.format();
 	} else {
-		return url.parse("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil");
+		return url.parse("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil").format();
 	}
 }
 
