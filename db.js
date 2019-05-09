@@ -73,7 +73,7 @@ exports.init = function(env, callback) {
 			return;
 		}
 
-		db = conn;
+		db = conn.db();
 		exports.graphs = graphs();
 		console.log("Connected to MongoDB at: "+env.mongoURL);
 		ensureIndex();
