@@ -26,7 +26,7 @@ var config = require('./config.json');
 exports.listenHost = (process.env.VCAP_APP_HOST || process.env.OPENSHIFT_NODEJS_IP || config.host);
 
 // the port on the DEA for communication with the application:
-exports.listenPort = (process.env.VCAP_APP_PORT || process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || config.port);
+exports.listenPort = (process.env.PORT || process.env.VCAP_APP_PORT || process.env.OPENSHIFT_NODEJS_PORT ||  config.port);
 
 function addSlash(url) {
 	if (url.substr(-1) == '/') {
