@@ -28,9 +28,14 @@ var rdf = require('./vocab/rdf.js');			// RDF vocabulary
 // normalize paths (remove '.' and '..')
 function normalize(urlStr) {
 	if(urlStr) {
-		var urlObj = url.parse(urlStr);
-		// urlObj.pathname = path.normalize(urlObj.pathname);
-		return urlObj.format();
+
+		if ((urlStr typeof s || urlStr instanceof String)) {
+			var urlObj = url.parse(urlStr);
+			// urlObj.pathname = path.normalize(urlObj.pathname);
+			return urlObj.format();
+		} else {
+			return urlStr;
+		}
 	} else {
 		return url.parse("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil").format();
 	}
