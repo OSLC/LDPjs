@@ -37,10 +37,11 @@ function addSlash(url) {
 }
 
 function toURL(urlObj) {
-	if ((urlObj.scheme === 'http' && urlObj.port === 80) ||
-			(urlObj.scheme === 'https' && urlObj.port === 443)) {
-		delete urlObj.port;
-	}
+	// not needed according to https://nodejs.org/api/url.html#url_url_port
+	// if ((urlObj.protocol === 'http' && urlObj.port === 80) ||
+	// 		(urlObj.protocol === 'https' && urlObj.port === 443)) {
+	// 	delete urlObj.port;
+	// }
 
 	return url.format(urlObj);
 }
@@ -51,18 +52,18 @@ if (process.env.LDP_BASE) {
 	// LDP_BASE env var set
 	exports.ldpBase = addSlash(process.env.LDP_BASE);
 	var url = url.parse(exports.ldpBase);
-	exports.scheme = url.scheme;
+	exports.protocol = url.protocol;
 	exports.host = url.host;
 	exports.port = url.port;
 	exports.context = url.pathname;
 	exports.appBase = toURL({
-		protocol: exports.scheme,
+		protocol: exports.protocol,
 		hostname: exports.host,
 		port: exports.port
 	});
 } else {
 	// no LDP_BASE set
-	exports.scheme = (process.env.VCAP_APP_PORT) ? 'http' :config.scheme;
+	exports.protocol = (process.env.VCAP_APP_PORT) ? 'http' :config.protocol;
 	if (appInfo.application_uris) {
 		exports.host = appInfo.application_uris[0];
 	} else {
@@ -76,13 +77,13 @@ if (process.env.LDP_BASE) {
 	exports.context = addSlash(config.context);
 
 	exports.appBase = toURL({
-		protocol: exports.scheme,
+		protocol: exports.protocol,
 		hostname: exports.host,
 		port: exports.port
 	});
 
 	exports.ldpBase = toURL({
-		protocol: exports.scheme,
+		protocol: exports.protocol,
 		hostname: exports.host,
 		port: exports.port,
 		pathname: exports.context
