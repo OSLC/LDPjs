@@ -42,7 +42,6 @@ function toURL(urlObj) {
 	// 		(urlObj.protocol === 'https' && urlObj.port === 443)) {
 	// 	delete urlObj.port;
 	// }
-
 	return url.format(urlObj);
 }
 
@@ -53,7 +52,7 @@ if (process.env.LDP_BASE) {
 	exports.ldpBase = addSlash(process.env.LDP_BASE);
 	var url = url.parse(exports.ldpBase);
 	exports.protocol = url.protocol;
-	exports.host = url.host;
+	exports.host = url.hostname;
 	exports.port = url.port;
 	exports.context = url.pathname;
 	exports.appBase = toURL({
@@ -78,13 +77,13 @@ if (process.env.LDP_BASE) {
 
 	exports.appBase = toURL({
 		protocol: exports.protocol,
-		hostname: exports.host,
+		hostname: exports.hostname,
 		port: exports.port
 	});
 
 	exports.ldpBase = toURL({
 		protocol: exports.protocol,
-		hostname: exports.host,
+		hostname: exports.hostname,
 		port: exports.port,
 		pathname: exports.context
 	});
