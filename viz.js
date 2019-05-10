@@ -112,4 +112,8 @@ module.exports = function(app, db, env) {
 	function nodeName(uri) {
 		return uri.replace(env.appBase, '');
 	}
+
+	function str(input) {
+		return (typeof input === 'string');
+	}
 };
