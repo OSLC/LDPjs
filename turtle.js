@@ -29,7 +29,7 @@ var rdf = require('./vocab/rdf.js');			// RDF vocabulary
 function normalize(urlStr) {
 	if(urlStr) {
 
-		if ((urlStr typeof s || urlStr instanceof String)) {
+		if ( typeof s == 'string' || urlStr instanceof String) {
 			var urlObj = url.parse(urlStr);
 			// urlObj.pathname = path.normalize(urlObj.pathname);
 			return urlObj.format();
