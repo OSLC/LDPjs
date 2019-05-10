@@ -74,13 +74,13 @@ if (process.env.LDP_BASE) {
 
 	exports.appBase = toURL({
 		protocol: exports.protocol,
-		hostname: exports.hostname,
+		hostname: exports.host,
 		port: exports.port
 	});
 
 	exports.ldpBase = toURL({
 		protocol: exports.protocol,
-		hostname: exports.hostname,
+		hostname: exports.host,
 		port: exports.port,
 		pathname: exports.context
 	});
