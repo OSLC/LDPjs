@@ -37,8 +37,8 @@ function addSlash(url) {
 }
 
 function toURL(urlObj) {
-	if ((urlObj.protocol === 'http' && urlObj.port === 80) ||
-			(urlObj.protocol === 'https' && urlObj.port === 443)) {
+	if ((urlObj.protocol === 'http:' && urlObj.port === 80) ||
+			(urlObj.protocol === 'https:' && urlObj.port === 443)) {
 		delete urlObj.port;
 	}
 	return url.format(urlObj);
@@ -48,17 +48,15 @@ function toURL(urlObj) {
 var appInfo = JSON.parse(process.env.VCAP_APPLICATION || "{}");
 if (process.env.LDP_BASE) {
 	// LDP_BASE env var set
-	var url = url.parse(addSlash(process.env.LDP_BASE));
-	exports.ldpBase = url.href;
-	exports.protocol = url.protocol;
-	exports.host = url.hostname;
-	exports.port = url.port;
-	exports.context = url.pathname;
-	exports.appBase = toURL({
-		protocol: exports.protocol,
-		hostname: exports.hostname,
-		port: exports.port
-	});
+	var ldpUrl = url.parse(addSlash(process.env.LDP_BASE));
+	exports.ldpBase = ldpUrl.href;
+	exports.protocol = ldpUrl.protocol;
+	exports.host = ldpUrl.hostname;
+	exports.port = ldpUrl.port;
+	exports.context = ldpUrl.pathname;
+	var baseUrl = url.parse(addSlash(process.env.LDP_BASE));
+	baseUrl.path = '/';
+	exports.appBase = baseUrl.href;
 } else {
 	// no LDP_BASE set
 	exports.protocol = (process.env.VCAP_APP_PORT) ? 'http' :config.protocol;
