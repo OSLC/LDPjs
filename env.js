@@ -48,13 +48,13 @@ function toURL(urlObj) {
 var appInfo = JSON.parse(process.env.VCAP_APPLICATION || "{}");
 if (process.env.LDP_BASE) {
 	// LDP_BASE env var set
-	var ldpUrl = url.parse(addSlash(process.env.LDP_BASE));
+	var ldpUrl = new URL(addSlash(process.env.LDP_BASE));
 	exports.ldpBase = ldpUrl.href;
 	exports.protocol = ldpUrl.protocol;
 	exports.host = ldpUrl.hostname;
 	exports.port = ldpUrl.port;
 	exports.context = ldpUrl.pathname;
-	var baseUrl = url.parse(addSlash(process.env.LDP_BASE));
+	var baseUrl = new URL(addSlash(process.env.LDP_BASE));
 	baseUrl.path = '/';
 	exports.appBase = baseUrl.href;
 } else {
