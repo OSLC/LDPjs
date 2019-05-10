@@ -113,7 +113,7 @@ module.exports = function(app, db, env) {
 		if(str(uri)) {
 			return uri.replace(env.appBase, '');
 		} else {
-			console.log("Node is not a URI: " + uri);
+			console.log("Node is not a URI: " + JSON.stringify(uri, null, 2));
 			return uri;
 		}
 	}
