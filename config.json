@@ -1,7 +1,8 @@
 {
-	"scheme": "https",
-	"bind": "0.0.0.0",
-	"host": "ldpjs-refimpl.herokuapp.com",
+	"scheme": "http",
+	"bind": "127.0.0.1",
+	"port": 3000,
+	"host": "localhost",
 	"context": "/r",
 	"mongoURL": "mongodb://localhost:27017/ldp"
 }
