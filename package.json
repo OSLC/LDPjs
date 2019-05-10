@@ -4,18 +4,13 @@
 	"description": "A Node.js reference app for LDP",
 	"license": "Apache-2.0",
 	"dependencies": {
-		"express": "4.16.3",
-		"n3": "1.0.0-beta.1",
+		"express": "~4.16.3",
+		"n3": "1.0.0",
 		"jsonld": "1.0.2",
-		"mongodb": "3.1.0"
+		"mongodb": "~3.1.0"
 	},
-	"engines": {
-		"node": "0.10.26"
-
-	},
-	"scripts": {  
-	   "start": "node app.js"
+	"scripts": {
+		"start": "node app.js"
 	},
 	"repository": {}
-
 }

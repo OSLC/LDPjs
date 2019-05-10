@@ -69,7 +69,7 @@ function jsonldResource(subject) {
 }
 
 function jsonldObject(object) {
-	if (N3.Util.isUri(object) || N3.Util.isBlank(object)) {
+	if (N3.Util.isNamedNode(object) || N3.Util.isBlank(object)) {
 		return jsonldResource(object);
 	}
 
@@ -101,7 +101,7 @@ exports.serialize = function(triples, callback) {
 		}
 
 		var object;
-		if ((N3.Util.isUri(triple.object) || N3.Util.isBlank(triple.object)) && !map[triple.object]) {
+		if ((N3.Util.isNamedNode(triple.object) || N3.Util.isBlank(triple.object)) && !map[triple.object]) {
 			object = jsonldResource(triple.object);
 		}
 

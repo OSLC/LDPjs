@@ -23,10 +23,10 @@ var url = require("url");
 var config = require('./config.json');
 
 // the IP address of the Cloud Foundry DEA (Droplet Execution Agent) that hosts this application:
-exports.listenHost = (process.env.VCAP_APP_HOST || process.env.OPENSHIFT_NODEJS_IP || config.host);
+exports.listenHost = (process.env.VCAP_APP_HOST || process.env.OPENSHIFT_NODEJS_IP || config.bind);
 
 // the port on the DEA for communication with the application:
-exports.listenPort = (process.env.VCAP_APP_PORT || process.env.OPENSHIFT_NODEJS_PORT || config.port);
+exports.listenPort = (process.env.PORT || process.env.VCAP_APP_PORT || process.env.OPENSHIFT_NODEJS_PORT ||  config.port);
 
 function addSlash(url) {
 	if (url.substr(-1) == '/') {
@@ -37,11 +37,10 @@ function addSlash(url) {
 }
 
 function toURL(urlObj) {
-	if ((urlObj.scheme === 'http' && urlObj.port === 80) ||
-			(urlObj.scheme === 'https' && urlObj.port === 443)) {
+	if ((urlObj.protocol === 'http' && urlObj.port === 80) ||
+			(urlObj.protocol === 'https' && urlObj.port === 443)) {
 		delete urlObj.port;
 	}
-
 	return url.format(urlObj);
 }
 
@@ -49,20 +48,27 @@ function toURL(urlObj) {
 var appInfo = JSON.parse(process.env.VCAP_APPLICATION || "{}");
 if (process.env.LDP_BASE) {
 	// LDP_BASE env var set
-	exports.ldpBase = addSlash(process.env.LDP_BASE);
-	var url = url.parse(exports.ldpBase);
-	exports.scheme = url.scheme;
-	exports.host = url.host;
-	exports.port = url.port;
-	exports.context = url.pathname;
-	exports.appBase = toURL({
-		protocol: exports.scheme,
-		host: exports.host,
-		port: exports.port
-	});
+	var ldpUrl = new URL(addSlash(process.env.LDP_BASE));
+	exports.ldpBase = ldpUrl.href;
+	exports.protocol = ldpUrl.protocol.replace(':', '');
+	exports.host = ldpUrl.hostname;
+	if(ldpUrl.port) {
+		exports.port = ldpUrl.port;
+	}
+	else {
+		if(exports.protocol === 'http') {
+			exports.port = 80;
+		} else if (exports.protocol === 'https') {
+			exports.port = 443;
+		}
+	}
+	exports.context = ldpUrl.pathname;
+	var baseUrl = new URL(addSlash(process.env.LDP_BASE));
+	baseUrl.pathname = '';
+	exports.appBase = baseUrl.href;
 } else {
 	// no LDP_BASE set
-	exports.scheme = (process.env.VCAP_APP_PORT) ? 'http' :config.scheme;
+	exports.protocol = (process.env.VCAP_APP_PORT) ? 'http' :config.protocol;
 	if (appInfo.application_uris) {
 		exports.host = appInfo.application_uris[0];
 	} else {
@@ -76,13 +82,13 @@ if (process.env.LDP_BASE) {
 	exports.context = addSlash(config.context);
 
 	exports.appBase = toURL({
-		protocol: exports.scheme,
+		protocol: exports.protocol,
 		hostname: exports.host,
 		port: exports.port
 	});
 
 	exports.ldpBase = toURL({
-		protocol: exports.scheme,
+		protocol: exports.protocol,
 		hostname: exports.host,
 		port: exports.port,
 		pathname: exports.context
@@ -96,7 +102,10 @@ if (process.env.VCAP_SERVICES) {
 } else {
 	if (process.env.OPENSHIFT_MONGODB_DB_URL) {
 		exports.mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL;
-	} else {
+	} else if (process.env.MONGODB_URI) {
+		// Heroku
+		exports.mongoURL = process.env.MONGODB_URI;
+	}else {
 		exports.mongoURL = process.env.MONGO_URL || config.mongoURL;
 	}
 }

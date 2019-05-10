@@ -110,6 +110,18 @@ module.exports = function(app, db, env) {
 	});
 
 	function nodeName(uri) {
-		return uri.replace(env.appBase, '');
+		if(str(uri)) {
+			return uri.replace(env.appBase, '');
+		} else {
+			console.log("Node is not a URI: " + JSON.stringify(uri, null, 2));
+			if ('id' in uri) {
+				return nodeName(uri['id']);
+			}
+			return uri;
+		}
+	}
+
+	function str(input) {
+		return (typeof input === 'string' || input instanceof String);
 	}
 };
