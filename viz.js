@@ -122,6 +122,6 @@ module.exports = function(app, db, env) {
 	}
 
 	function str(input) {
-		return (typeof input === 'string');
+		return (typeof input === 'string' || input instanceof String);
 	}
 };
