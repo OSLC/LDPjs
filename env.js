@@ -55,7 +55,7 @@ if (process.env.LDP_BASE) {
 	exports.port = ldpUrl.port;
 	exports.context = ldpUrl.pathname;
 	var baseUrl = new URL(addSlash(process.env.LDP_BASE));
-	baseUrl.path = '/';
+	baseUrl.pathname = '/';
 	exports.appBase = baseUrl.href;
 } else {
 	// no LDP_BASE set
