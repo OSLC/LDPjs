@@ -110,7 +110,12 @@ module.exports = function(app, db, env) {
 	});
 
 	function nodeName(uri) {
-		return uri.replace(env.appBase, '');
+		if(str(uri)) {
+			return uri.replace(env.appBase, '');
+		} else {
+			console.log("Node is not a URI: " + uri);
+			return uri;
+		}
 	}
 
 	function str(input) {
