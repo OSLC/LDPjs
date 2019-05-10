@@ -37,11 +37,10 @@ function addSlash(url) {
 }
 
 function toURL(urlObj) {
-	// not needed according to https://nodejs.org/api/url.html#url_url_port
-	// if ((urlObj.protocol === 'http' && urlObj.port === 80) ||
-	// 		(urlObj.protocol === 'https' && urlObj.port === 443)) {
-	// 	delete urlObj.port;
-	// }
+	if ((urlObj.protocol === 'http' && urlObj.port === 80) ||
+			(urlObj.protocol === 'https' && urlObj.port === 443)) {
+		delete urlObj.port;
+	}
 	return url.format(urlObj);
 }
 
@@ -49,15 +48,15 @@ function toURL(urlObj) {
 var appInfo = JSON.parse(process.env.VCAP_APPLICATION || "{}");
 if (process.env.LDP_BASE) {
 	// LDP_BASE env var set
-	exports.ldpBase = addSlash(process.env.LDP_BASE);
-	var url = url.parse(exports.ldpBase);
+	var url = url.parse(addSlash(process.env.LDP_BASE));
+	exports.ldpBase = url.href;
 	exports.protocol = url.protocol;
 	exports.host = url.hostname;
 	exports.port = url.port;
 	exports.context = url.pathname;
 	exports.appBase = toURL({
 		protocol: exports.protocol,
-		hostname: exports.host,
+		hostname: exports.hostname,
 		port: exports.port
 	});
 } else {
