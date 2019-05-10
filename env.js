@@ -37,8 +37,8 @@ function addSlash(url) {
 }
 
 function toURL(urlObj) {
-	if ((urlObj.protocol === 'http:' && urlObj.port === 80) ||
-			(urlObj.protocol === 'https:' && urlObj.port === 443)) {
+	if ((urlObj.protocol === 'http' && urlObj.port === 80) ||
+			(urlObj.protocol === 'https' && urlObj.port === 443)) {
 		delete urlObj.port;
 	}
 	return url.format(urlObj);
@@ -50,9 +50,18 @@ if (process.env.LDP_BASE) {
 	// LDP_BASE env var set
 	var ldpUrl = new URL(addSlash(process.env.LDP_BASE));
 	exports.ldpBase = ldpUrl.href;
-	exports.protocol = ldpUrl.protocol;
+	exports.protocol = ldpUrl.protocol.replace(':', '');
 	exports.host = ldpUrl.hostname;
-	exports.port = ldpUrl.port;
+	if(ldpUrl.port) {
+		exports.port = ldpUrl.port;
+	}
+	else {
+		if(exports.protocol === 'http') {
+			exports.port = 80;
+		} else if (exports.protocol === 'https') {
+			exports.port = 443;
+		}
+	}
 	exports.context = ldpUrl.pathname;
 	var baseUrl = new URL(addSlash(process.env.LDP_BASE));
 	baseUrl.pathname = '';
